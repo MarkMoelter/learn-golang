@@ -1,11 +1,21 @@
 package hello
 
 const englishHelloPrefix = "Hello, "
+const spanishHelloPrefix = "Hola, "
 
-func Hello(name string) string {
+func Hello(name, language string) string {
 	if name == "" {
 		name = "World"
 	}
 
-	return englishHelloPrefix + name
+	var prefix string
+
+	switch language {
+	case "":
+		prefix = englishHelloPrefix
+	case "Spanish":
+		prefix = spanishHelloPrefix
+	}
+
+	return prefix + name
 }
