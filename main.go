@@ -1,11 +1,13 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"net/http"
 
-	"example.com/myproject/hello"
+	"example.com/myproject/greet"
 )
 
 func main() {
-	fmt.Println(hello.Hello("world", ""))
+	log.Fatal(http.ListenAndServe(":5001", http.HandlerFunc(greet.MyGreeterHandler)))
+
 }
