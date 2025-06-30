@@ -6,8 +6,6 @@ import (
 )
 
 func TestWalk(t *testing.T) {
-	const lenDesired = 1
-
 	cases := []struct {
 		Name		  string
 		Input		  interface{}
