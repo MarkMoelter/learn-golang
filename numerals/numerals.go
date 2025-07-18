@@ -2,17 +2,29 @@ package numerals
 
 import "strings"
 
-func ConvertToRoman(arabic int) (string, error) {
+type RomanNumeral struct {
+	Value  int
+	Symbol string
+}
 
-	if arabic == 4 {
-		return "VI", nil
-	}
+var allRomanNumerals = []RomanNumeral{
+	{10, "X"},
+	{9, "IX"},
+	{5, "V"},
+	{4, "IV"},
+	{1, "I"},
+}
+
+func ConvertToRoman(arabic int) string {
 
 	var result strings.Builder
 
-	for i := 0; i < arabic; i++ {
-		result.WriteString("I")
+	for _, numeral := range allRomanNumerals {
+		for arabic >= numeral.Value {
+			result.WriteString(numeral.Symbol)
+			arabic -= numeral.Value
+		}
 	}
 
-	return result.String(), nil
+	return result.String()
 }
