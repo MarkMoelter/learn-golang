@@ -1,12 +1,14 @@
 package numerals
 
+import "strings"
+
 func ConvertToRoman(arabic int) (string, error) {
-	switch arabic {
-	case 3:
-		return "III", nil
-	case 2:
-		return "II", nil
+
+	var result strings.Builder
+
+	for i := 0; i < arabic; i++ {
+		result.WriteString("I")
 	}
 
-	return "I", nil
+	return result.String(), nil
 }
