@@ -3,7 +3,6 @@ package clockface_test
 import (
 	"bytes"
 	"encoding/xml"
-	"strings"
 	"testing"
 	"time"
 
@@ -67,16 +66,23 @@ func TestSVGWriterSecondHand(t *testing.T) {
 
 func TestSVGWriterAtMidnight(t *testing.T) {
 	tm := time.Date(1337, time.January, 1, 0, 0, 0, 0, time.UTC)
+	b := bytes.Buffer{}
 
-	var b strings.Builder
 	clockface.SVGWriter(&b, tm)
-	got := b.String()
 
-	want := `<line x1="150" y1="150" x2="150.000" y2="60.000"`
+	svg := SVG{}
 
-	if !strings.Contains(got, want) {
-		t.Errorf("Expected to find the second hand %v, in the SVG output %v", want, got)
+	xml.Unmarshal(b.Bytes(), &svg)
+
+	want := Line{150, 150, 150, 60}
+
+	for _, line := range svg.Line {
+		if line == want {
+			return
+		}
 	}
+
+	t.Errorf("Expected to find the second hand line %+v, in the SVG lines %+v", want, svg.Line)
 }
 
 func containsLine(l Line, ls []Line) bool {

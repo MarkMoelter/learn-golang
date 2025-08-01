@@ -49,6 +49,44 @@ func TestSecondHand(t *testing.T) {
 	})
 }
 
+func TestMinuteHand(t *testing.T) {
+	t.Run("test minutes in radians", func(t *testing.T) {
+		cases := []struct {
+			time  time.Time
+			angle float64
+		}{
+			{simpleTime(0, 30, 0), math.Pi},
+		}
+
+		for _, c := range cases {
+			t.Run(testName(c.time), func(t *testing.T) {
+				got := clockface.MinutesInRadians(c.time)
+				if got != c.angle {
+					t.Fatalf("Wanted %v radians, but got %v", c.angle, got)
+				}
+			})
+		}
+	})
+	t.Run("test minute hand point", func(t *testing.T) {
+		cases := []struct {
+			time  time.Time
+			point clockface.Point
+		}{
+			{simpleTime(0, 30, 0), clockface.Point{0, -1}},
+			{simpleTime(0, 45, 0), clockface.Point{-1, 0}},
+		}
+
+		for _, c := range cases {
+			t.Run(testName(c.time), func(t *testing.T) {
+				got := clockface.MinuteHandPoint(c.time)
+				if !roughlyEqualPoint(got, c.point) {
+					t.Fatalf("Wanted %v Point, but got %v", c.point, got)
+				}
+			})
+		}
+	})
+}
+
 func simpleTime(hours, minutes, seconds int) time.Time {
 	return time.Date(1337, time.January, 1, hours, minutes, seconds, 0, time.UTC)	
 }
