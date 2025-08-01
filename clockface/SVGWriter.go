@@ -23,19 +23,20 @@ func SVGWriter(w io.Writer, t time.Time) {
 }
 
 func secondHand(w io.Writer, t time.Time) {
-	p := SecondHandPoint(t)
-	p = Point{p.X * secHandLen, p.Y * secHandLen}     // scale
-	p = Point{p.X, -p.Y}                              // flip
-	p = Point{p.X + clockCenterX, p.Y + clockCenterY} // translate
+	p := makeHand(SecondHandPoint(t), secHandLen)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#f00;stroke-width:3px;"/>`, p.X, p.Y)
 }
 
 func minuteHand(w io.Writer, t time.Time) {
-	p := MinuteHandPoint(t)
-	p = Point{p.X * minHandLen, p.Y * minHandLen}
-	p = Point{p.X, -p.Y}
-	p = Point{p.X + clockCenterX, p.Y + clockCenterY}
+	p := makeHand(MinuteHandPoint(t), minHandLen)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:3px;"/>`, p.X, p.Y)
+}
+
+func makeHand(p Point, length float64) Point {
+	p = Point{p.X * length, p.Y * length}     		  // scale
+	p = Point{p.X, -p.Y}                              // flip
+	p = Point{p.X + clockCenterX, p.Y + clockCenterY} // translate
+	return p
 }
 
 const svgStart = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
