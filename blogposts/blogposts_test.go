@@ -1,22 +1,35 @@
 package blogposts_test
 
 import (
+	"reflect"
 	"testing"
 	"testing/fstest"
+
 	blogposts "example.com/myproject/blogposts"
 )
 
 func TestBlogPosts(t *testing.T) {
-	t.Run("", func(t *testing.T) {
+	t.Run("check number of posts", func(t *testing.T) {
 		fs := fstest.MapFS{
-			"hello world.md": {Data: []byte("hi")},
-			"hello-world2.md": {Data: []byte("hola")},
+			"hello world.md":  {Data: []byte("Title: Post 1")},
+			"hello-world2.md": {Data: []byte("Title: Post 2")},
 		}
 
-		posts := blogposts.NewPostsFromFS(fs)
+		posts, err := blogposts.NewPostsFromFS(fs)
+
+		if err != nil {
+			t.Fatal(err)
+		}
 
 		if len(posts) != len(fs) {
 			t.Errorf("got %d posts, wanted %d posts", len(posts), len(fs))
+		}
+
+		got := posts[0]
+		want := blogposts.Post{Title: "Post 1"}
+
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %+v, want %+v", got, want)
 		}
 	})
 }
