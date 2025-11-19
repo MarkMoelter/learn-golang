@@ -61,11 +61,11 @@ type ConfigurableSleeper struct {
 }
 
 type SpyTime struct {
-	durationSlept time.Duration
+	DurationSlept time.Duration
 }
 
 func (s *SpyTime) Sleep(duration time.Duration) {
-	s.durationSlept = duration
+	s.DurationSlept = duration
 }
 
 func (c *ConfigurableSleeper) Sleep() {

@@ -2,7 +2,7 @@ package walk
 
 import "reflect"
 
-func walk(x interface{}, fn func(input string)) {
+func Walk(x interface{}, fn func(input string)) {
 	val := reflect.ValueOf(x)
 
 	if val.Kind() == reflect.Pointer {
@@ -10,7 +10,7 @@ func walk(x interface{}, fn func(input string)) {
 	}
 
 	walkValue := func(value reflect.Value) {
-		walk(value.Interface(), fn)
+		Walk(value.Interface(), fn)
 	}
 
 	switch val.Kind() {

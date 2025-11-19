@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"example.com/myproject/countdown"
+	"github.com/MarkMoelter/learn-golang/countdown"
 )
 
 func main() {

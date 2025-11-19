@@ -1,26 +1,31 @@
-package hello
+package hello_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/MarkMoelter/learn-golang/hello"
+)
+
 
 func TestHello(t *testing.T) {
 	t.Run("saying hello to people", func(t *testing.T) {
-		got := Hello("Mark", "")
+		got := hello.Hello("Mark", "")
 		want := "Hello, Mark"
 
 		assertCorrectMessage(t, got, want)
 	})
 	t.Run("empty string defaults to 'world'", func(t *testing.T) {
-		got := Hello("", "")
+		got := hello.Hello("", "")
 		want := "Hello, World"
 		assertCorrectMessage(t, got, want)
 	})
 	t.Run("in Spanish", func(t *testing.T) {
-		got := Hello("Elodie", "Spanish")
+		got := hello.Hello("Elodie", "Spanish")
 		want := "Hola, Elodie"
 		assertCorrectMessage(t, got, want)
 	})
 	t.Run("in French", func(t *testing.T) {
-		got := Hello("Elodie", "French")
+		got := hello.Hello("Elodie", "French")
 		want := "Bonjour, Elodie"
 		assertCorrectMessage(t, got, want)
 	})

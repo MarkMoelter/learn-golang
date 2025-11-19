@@ -1,4 +1,4 @@
-package server
+package server_test
 
 import (
 	"context"
@@ -8,11 +8,13 @@ import (
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/MarkMoelter/learn-golang/server"
 )
 
 type SpyStore struct {
-	response  string
-	t		  *testing.T
+	response string
+	t        *testing.T
 }
 
 type SpyResponseWriter struct {
@@ -64,7 +66,7 @@ func TestServer(t *testing.T) {
 
 	t.Run("store returns a response", func(t *testing.T) {
 		store := &SpyStore{response: data, t: t}
-		svr := Server(store)
+		svr := server.Server(store)
 
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
 		response := httptest.NewRecorder()
@@ -77,7 +79,7 @@ func TestServer(t *testing.T) {
 	})
 	t.Run("tells store to cancel work if request is cancelled", func(t *testing.T) {
 		store := &SpyStore{response: data, t: t}
-		svr := Server(store)
+		svr := server.Server(store)
 
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
 
@@ -95,8 +97,8 @@ func TestServer(t *testing.T) {
 	})
 	t.Run("returns data from store", func(t *testing.T) {
 		store := &SpyStore{response: data}
-		svr := Server(store)
-
+		svr := server.Server(store)
+		
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
 		response := httptest.NewRecorder()
 

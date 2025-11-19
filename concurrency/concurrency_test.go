@@ -1,9 +1,11 @@
-package concurrency
+package concurrency_test
 
 import (
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/MarkMoelter/learn-golang/concurrency"
 )
 
 const invalidWebsite = "waat://furhurterwe.geds"
@@ -26,7 +28,7 @@ func TestConcurrency(t *testing.T) {
 			invalidWebsite:			      false,		
 		}
 
-		got := CheckWebsites(mockWebsiteChecker, websites)
+		got := concurrency.CheckWebsites(mockWebsiteChecker, websites)
 
 		if !reflect.DeepEqual(want, got) {
 			t.Fatalf("wanted %v, got %v", want, got)
@@ -46,6 +48,6 @@ func BenchmarkCheckWebsites(b *testing.B) {
 	}
 
 	for b.Loop() {
-		CheckWebsites(slowStubWebsiteChecker, urls)
+		concurrency.CheckWebsites(slowStubWebsiteChecker, urls)
 	}
 }

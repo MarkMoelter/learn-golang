@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"example.com/myproject/clockface"
+	"github.com/MarkMoelter/learn-golang/clockface"
 )
 
 func TestSecondHand(t *testing.T) {

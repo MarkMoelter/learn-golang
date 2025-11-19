@@ -1,18 +1,20 @@
-package countdown
+package countdown_test
 
 import (
 	"bytes"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/MarkMoelter/learn-golang/countdown"
 )
 
 func TestCountdown(t *testing.T) {
 	t.Run("use buffer", func(t *testing.T) {
 		buffer := &bytes.Buffer{}
-		spySleeper := &SpySleeper{}
+		spySleeper := &countdown.SpySleeper{}
 
-		Countdown(buffer, spySleeper)
+		countdown.Countdown(buffer, spySleeper)
 
 		got := buffer.String()
 		want := "3\n2\n1\nGo!"
@@ -26,17 +28,17 @@ func TestCountdown(t *testing.T) {
 		}
 	})
 	t.Run("sleep before every print", func(t *testing.T) {
-		spySleepPrinter := &SpyCountdownOperations{}
-		Countdown(spySleepPrinter,spySleepPrinter)
+		spySleepPrinter := &countdown.SpyCountdownOperations{}
+		countdown.Countdown(spySleepPrinter,spySleepPrinter)
 
 		want := []string{
-			write,
-			sleep,
-			write,
-			sleep,
-			write,
-			sleep,
-			write,
+			"write",
+			"sleep",
+			"write",
+			"sleep",
+			"write",
+			"sleep",
+			"write",
 		}
 
 		if !reflect.DeepEqual(want, spySleepPrinter.Calls) {
@@ -49,12 +51,12 @@ func TestConfigurableSleeper(t *testing.T) {
 	t.Run("", func(t *testing.T) {
 		sleepTime := 5 * time.Second
 
-		spyTime := &SpyTime{}
-		sleeper := ConfigurableSleeper{sleepTime, spyTime.Sleep}
+		spyTime := &countdown.SpyTime{}
+		sleeper := countdown.ConfigurableSleeper{sleepTime, spyTime.Sleep}
 		sleeper.Sleep()
 
-		if spyTime.durationSlept != sleepTime {
-			t.Errorf("should have slept for %v but slept for %v", sleepTime, spyTime.durationSlept)
+		if spyTime.DurationSlept != sleepTime {
+			t.Errorf("should have slept for %v but slept for %v", sleepTime, spyTime.DurationSlept)
 		}
 	})
 }

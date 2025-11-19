@@ -1,32 +1,39 @@
-package wallet
+package wallet_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/MarkMoelter/learn-golang/wallet"
+)
 
 func TestWallet(t *testing.T) {
 	t.Run("deposit", func(t *testing.T) {
-		wallet := Wallet{}
-		wallet.Deposit(Bitcoin(10))
+		wallet_ := wallet.Wallet{}
+		wallet_.Deposit(wallet.Bitcoin(10))
 
-		assertBalance(t, wallet, Bitcoin(10))
+		assertBalance(t, wallet_, wallet.Bitcoin(10))
 	})
 	t.Run("withdraw", func(t *testing.T){
-		wallet := Wallet{balance: Bitcoin(20)}
-		err := wallet.Withdraw(Bitcoin(10))
+		startingBalance := wallet.Bitcoin(20)
+		wallet_ := wallet.Wallet{}
+		wallet_.Deposit(startingBalance)
+		err := wallet_.Withdraw(wallet.Bitcoin(10))
 
 		assertNoError(t, err)
-		assertBalance(t, wallet, Bitcoin(10))
+		assertBalance(t, wallet_, wallet.Bitcoin(10))
 	})
 	t.Run("withdraw insufficient funds", func(t *testing.T) {
-		startingBalance := Bitcoin(20)
-		wallet := Wallet{startingBalance}
-		err := wallet.Withdraw(Bitcoin(100))
+		startingBalance := wallet.Bitcoin(20)
+		wallet_ := wallet.Wallet{}
+		wallet_.Deposit(startingBalance)
+		err := wallet_.Withdraw(wallet.Bitcoin(100))
 
-		assertError(t, err, ErrInsufficientFunds)
-		assertBalance(t, wallet, startingBalance)
+		assertError(t, err, wallet.ErrInsufficientFunds)
+		assertBalance(t, wallet_, startingBalance)
 	})
 }
 
-func assertBalance(t testing.TB, wallet Wallet, want Bitcoin) {
+func assertBalance(t testing.TB, wallet wallet.Wallet, want wallet.Bitcoin) {
 	t.Helper()
 
 	got := wallet.Balance()

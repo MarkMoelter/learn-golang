@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"example.com/myproject/clockface"
+	"github.com/MarkMoelter/learn-golang/clockface"
 )
 
 type SVG struct {

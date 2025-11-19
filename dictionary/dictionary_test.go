@@ -1,30 +1,34 @@
-package dictionary
+package dictionary_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/MarkMoelter/learn-golang/dictionary"
+)
 
 func TestSearch(t *testing.T) {
-	dictionary := Dictionary{"test": "this is just a test"}
+	dictionary_ := dictionary.Dictionary{"test": "this is just a test"}
 
 	t.Run("known word", func(t *testing.T) {
-		got, _ := dictionary.Search("test")
+		got, _ := dictionary_.Search("test")
 		want := "this is just a test"
 
 		assertStrings(t, got, want)
 	})
 	t.Run("unknown word", func(t *testing.T) {
-		_, err := dictionary.Search("unknown")
+		_, err := dictionary_.Search("unknown")
 
-		if err != ErrNotFound {
+		if err != dictionary.ErrNotFound {
 			t.Fatal("expected to get an error")
 		}
 
-		assertError(t, err, ErrNotFound)
+		assertError(t, err, dictionary.ErrNotFound)
 	})
 }
 
 func TestAdd(t *testing.T) {
 	t.Run("new word", func(t *testing.T) {
-		dictionary := Dictionary{}
+		dictionary := dictionary.Dictionary{}
 		word := "test"
 		definition := "this is just a test"
 
@@ -36,12 +40,12 @@ func TestAdd(t *testing.T) {
 	t.Run("existing word", func(t *testing.T) {
 		word := "test"
 		definition := "this is just a test"
-		dictionary := Dictionary{word: definition}
+		dictionary_ := dictionary.Dictionary{word: definition}
 
-		err := dictionary.Add(word, "new test")
+		err := dictionary_.Add(word, "new test")
 
-		assertError(t, err, ErrWordExists)
-		assertDefinition(t, dictionary, word, definition)
+		assertError(t, err, dictionary.ErrWordExists)
+		assertDefinition(t, dictionary_, word, definition)
 	})
 }
 
@@ -49,7 +53,7 @@ func TestUpdate(t *testing.T) {
 	t.Run("existing word", func(t *testing.T) {
 		word := "test"
 		definition := "this is just a test"
-		dictionary := Dictionary{word: definition}
+		dictionary := dictionary.Dictionary{word: definition}
 		newDefinition := "new definition"
 
 		err := dictionary.Update(word, newDefinition)
@@ -60,11 +64,11 @@ func TestUpdate(t *testing.T) {
 	t.Run("new word", func(t *testing.T) {
 		word := "test"
 		definition := "this is just a test"
-		dictionary := Dictionary{}
+		dictionary_ := dictionary.Dictionary{}
 
-		err := dictionary.Update(word, definition)
+		err := dictionary_.Update(word, definition)
 
-		assertError(t, err, ErrWordDoesNotExist)
+		assertError(t, err, dictionary.ErrWordDoesNotExist)
 	})
 }
 
@@ -72,21 +76,21 @@ func TestDelete(t *testing.T) {
 	t.Run("delete existing word", func(t *testing.T) {
 		word := "test"
 		definition := "this is just a test"
-		dictionary := Dictionary{word: definition}
+		dictionary_ := dictionary.Dictionary{word: definition}
 
-		err := dictionary.Delete(word)
+		err := dictionary_.Delete(word)
 		assertError(t, err, nil)
 
-		_, err = dictionary.Search(word)
-		assertError(t, err, ErrNotFound)
+		_, err = dictionary_.Search(word)
+		assertError(t, err, dictionary.ErrNotFound)
 	})
 	t.Run("delete non-existent word", func(t *testing.T) {
 		word := "test"
-		dictionary := Dictionary{}
+		dictionary_ := dictionary.Dictionary{}
 
-		err := dictionary.Delete(word)
+		err := dictionary_.Delete(word)
 
-		assertError(t, err, ErrWordDoesNotExist)
+		assertError(t, err, dictionary.ErrWordDoesNotExist)
 	})
 }
 
@@ -106,7 +110,7 @@ func assertError(t testing.TB, got, want error) {
 	}
 }
 
-func assertDefinition(t testing.TB, dictionary Dictionary, word, definition string) {
+func assertDefinition(t testing.TB, dictionary dictionary.Dictionary, word, definition string) {
 	t.Helper()
 
 	got, err := dictionary.Search(word)

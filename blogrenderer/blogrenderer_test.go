@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	blogrenderer "example.com/myproject/blogrenderer"
+	"github.com/MarkMoelter/learn-golang/blogrenderer"
 )
 
 

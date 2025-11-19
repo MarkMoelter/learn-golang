@@ -1,13 +1,15 @@
-package greet
+package greet_test
 
 import (
 	"bytes"
 	"testing"
+
+	"github.com/MarkMoelter/learn-golang/greet"
 )
 
 func TestGreet(t *testing.T) {
 	buf := bytes.Buffer{}
-	Greet(&buf, "Chris")
+	greet.Greet(&buf, "Chris")
 
 	got := buf.String()
 	want := "Hello, Chris"

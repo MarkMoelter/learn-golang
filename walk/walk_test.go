@@ -1,8 +1,10 @@
-package walk
+package walk_test
 
 import (
 	"reflect"
 	"testing"
+
+	"github.com/MarkMoelter/learn-golang/walk"
 )
 
 type Person struct {
@@ -89,7 +91,7 @@ func TestWalk(t *testing.T) {
 	for _, test := range cases {
 		t.Run(test.Name, func(t *testing.T) {
 			var got []string
-			walk(test.Input, func(input string) {
+			walk.Walk(test.Input, func(input string) {
 				got = append(got, input)
 			})
 
@@ -106,7 +108,7 @@ func TestWalk(t *testing.T) {
 		}
 
 		var got []string
-		walk(aMap, func(input string) {
+		walk.Walk(aMap, func(input string) {
 			got = append(got, input)
 		})
 
@@ -125,7 +127,7 @@ func TestWalk(t *testing.T) {
 		var got []string
 		want := []string{"Berlin", "Paris"}
 
-		walk(aChannel, func(input string) {
+		walk.Walk(aChannel, func(input string) {
 			got = append(got, input)
 		})
 
@@ -141,7 +143,7 @@ func TestWalk(t *testing.T) {
 		var got []string
 		want := []string{"Berlin", "Paris"}
 
-		walk(aFunction, func(input string) {
+		walk.Walk(aFunction, func(input string) {
 			got = append(got, input)
 		})
 

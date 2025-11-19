@@ -5,7 +5,7 @@ import (
 	"testing"
 	"testing/fstest"
 
-	blogposts "example.com/myproject/blogposts"
+	"github.com/MarkMoelter/learn-golang/blogposts"
 )
 
 func TestBlogPosts(t *testing.T) {

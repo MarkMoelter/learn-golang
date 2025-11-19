@@ -1,13 +1,15 @@
-package integers
+package adder_test
 
 import (
 	"fmt"
 	"testing"
+
+	"github.com/MarkMoelter/learn-golang/adder"
 )
 
 func TestAdder(t *testing.T) {
 	t.Run("add 10 and 9", func(t *testing.T) {
-		sum := Add(10, 9)
+		sum := adder.Add(10, 9)
 		expected := 19
 
 		if sum != expected {
@@ -18,7 +20,7 @@ func TestAdder(t *testing.T) {
 }
 
 func ExampleAdd() {
-	sum := Add(1, 5)
+	sum := adder.Add(1, 5)
 	fmt.Println(sum)
 	// Output: 6
 }
